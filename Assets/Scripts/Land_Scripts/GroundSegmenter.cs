@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 
 /// <summary>
@@ -96,7 +95,7 @@ public class GroundSegmenter : MonoBehaviour
         Renderer groundRenderer = null;
         Bounds bounds = new Bounds();
 
-        if ( groundField == null )
+        if ( groundField != null )
         {
             groundRenderer = groundField.GetComponent<Renderer>();
         };
@@ -141,7 +140,7 @@ public class GroundSegmenter : MonoBehaviour
         };
 
         // removal of the old container if present.
-        //RemoveOldMarkersContainer();
+        RemoveOldMarkersContainer();
 
         Transform markerContainer = null;
 
@@ -176,7 +175,7 @@ public class GroundSegmenter : MonoBehaviour
 
             if (createMarker && markerContainer != null)
             {
-                var newMarker = new GameObject($"LaneMarker_[i]");
+                var newMarker = new GameObject($"LaneMarker_{i}");
                 newMarker.transform.SetParent(markerContainer, worldPositionStays: true);
                 newMarker.transform.position = laneCenterWorld;
                 
@@ -215,4 +214,78 @@ public class GroundSegmenter : MonoBehaviour
             };
         };
     }
+
+    private void RemoveOldMarkersContainer()
+    {
+        var oldMarkers = transform.Find(MarkerContainerName);
+        
+        if (oldMarkers == null)
+        {
+            return;
+        };
+
+        #if UNITY_EDITOR
+
+        if (Application.isPlaying)
+        {
+          Destroy(oldMarkers.gameObject);
+        }
+        else
+        {
+          DestroyImmediate(oldMarkers.gameObject);
+        };
+        #else
+
+        Destroy(oldMarkers.gameObject);
+
+        #endif
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!showGizmo) return;
+
+        // If we have calculate center, we draw a box for all lanes.
+        if (laneCenter != null && laneCenter.Length == laneNumber)
+        {
+
+            float boundsY = (lastBound.size.y > 0.0001f) ? lastBound.size.y : 0.2f;
+
+            // Calcul width and depth with bounds.
+            float totalDimensionX = (lastBound.size.x > 0.0001f) ? ((lastBound.size.x - laneSpace * (laneNumber - 1)) / laneNumber) : 0.5f;
+            float depth = (lastBound.size.z > 0.0001f) ? lastBound.size.z : 1f;
+
+            Gizmos.color = gizmoFillColor;
+
+            for (int i = 0; i < laneNumber; i++)
+            {
+                Vector3 center = laneCenter[i];
+                Vector3 size = new Vector3(totalDimensionX, boundsY, depth);
+
+                Gizmos.DrawCube(center, size);
+
+                Gizmos.color = gizmoWireColor;
+                Gizmos.DrawCube(center, size);
+                Gizmos.color = gizmoFillColor;
+            };
+        };
+    }
+
+    public Vector3 GetLaneWorldCenter(int laneIndex)
+    {
+        if (laneCenter == null || laneIndex < 0 || laneIndex >= laneCenter.Length )
+        {
+            Debug.LogWarning("[GroundSegmenter] GetLaneWorldCenter: invalid index or lanes not calculated.");
+            return transform.position;
+        };
+        return laneCenter[laneIndex];
+    }
+
+    public Vector3 PositionToLane(Vector3 position, int laneIndex)
+    {
+        Vector3 laneCenterPos = GetLaneWorldCenter(laneIndex);
+        return new Vector3(laneCenterPos.x, position.y, laneCenterPos.z);
+    }
+
+
 };
