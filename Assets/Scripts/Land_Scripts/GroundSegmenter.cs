@@ -178,7 +178,10 @@ public class GroundSegmenter : MonoBehaviour
                 var newMarker = new GameObject($"LaneMarker_{i}");
                 newMarker.transform.SetParent(markerContainer, worldPositionStays: true);
                 newMarker.transform.position = laneCenterWorld;
-                
+
+                float laneMarkerChildPosZ = -fieldDimensionZ * 0.5f + + (fieldDimensionZ / laneNumber) * (i + 0.5f);
+                newMarker.transform.position = new Vector3(0f, laneCenterWorld.y, center.z + laneMarkerChildPosZ);
+
                 // Align the rotation of the world
                 if (groundField != null)
                 {
