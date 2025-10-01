@@ -5,7 +5,6 @@ public class CharacterMovement : MonoBehaviour
 {
     // References to other components 
     public GroundSegmenter groundSegmenter;
-    private CharacterAnimation characterAnimation;
 
     // Start in the middle lane
     int currentLane = 1;
@@ -20,8 +19,8 @@ public class CharacterMovement : MonoBehaviour
     float laneSwitchSpeed = 5f;
 
     // Jump parameters
-    [SerializeField] private float jumpHeight = 2f;
-    [SerializeField] private float jumpSpeed = 2f;
+    [SerializeField] private float jumpHeight = 1f;
+    [SerializeField] private float jumpSpeed = 5f;
     private bool isJumping = false;
     private float jumpStartY;
     private float jumpTargetY;
@@ -30,12 +29,17 @@ public class CharacterMovement : MonoBehaviour
     private bool isGoingUp = true;
 
     // Slide parameters
-    [SerializeField] private float slideDuration = 0.5f;
+    [SerializeField] private float slideDuration = 1f;
     [SerializeField] private float slideTimer = 0f;
+    [SerializeField] private float crouchDownDuration = 0.5f;
     private bool isSliding = false;
     private float slideElapsed = 0f;
     private Quaternion slideStartRotation;
     private Quaternion slideTargetRotation;
+
+    // Run parameters
+    [SerializeField] private float runSpeed = 5f;
+    private bool isRunning = true;
 
     private void Start()
     {
@@ -51,12 +55,6 @@ public class CharacterMovement : MonoBehaviour
         // Initialize character position to the current lane's center
         characterPosition = transform.position;
 
-        characterAnimation = GetComponent<CharacterAnimation>();
-        if (characterAnimation == null)
-        {
-            Debug.LogError("CharacterAnimation component not found on the character.");
-        }
-
     }
 
     private void Update()
@@ -71,6 +69,9 @@ public class CharacterMovement : MonoBehaviour
             // Change position if left or right key is pressed
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * laneSwitchSpeed);
         }
+
+        
+        RunMovement();
         HorizontalMovement();
         VerticalMovement();
     }
@@ -100,15 +101,25 @@ public class CharacterMovement : MonoBehaviour
     {
         // Jump Movement \\
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && !isJumping)
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            // Start jump
-            isJumping = true;
-            isGoingUp = true;
+            // Cancel jump if sliding
+            if (isSliding)
+            {
+                isSliding = false;
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
 
-            jumpStartY = transform.position.y;
-            jumpTargetY = jumpStartY + jumpHeight;
-            jumpTimer = 0f;
+            if (!isJumping)
+            {
+                // Start jump
+                isJumping = true;
+                isGoingUp = true;
+
+                jumpStartY = transform.position.y;
+                jumpTargetY = jumpStartY + jumpHeight;
+                jumpTimer = 0f;
+            }
         }
 
         // Gestion fluid of jump
@@ -135,7 +146,7 @@ public class CharacterMovement : MonoBehaviour
                 jumpTimer += Time.deltaTime;
                 float newY = Mathf.MoveTowards(transform.position.y, jumpStartY, speed * Time.deltaTime);
                 transform.position = new Vector3(transform.position.x, newY, transform.position.z);
-                // Check if landed
+
                 if (Mathf.Approximately(newY, jumpStartY) || jumpTimer >= jumpDuration / 2f)
                 {
                     isJumping = false;
@@ -145,23 +156,43 @@ public class CharacterMovement : MonoBehaviour
         } 
 
         // Slide Movement \\
-        if (Input.GetKeyDown(KeyCode.DownArrow) && !isSliding)
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            // Start slide
-            isSliding = true;
-            slideElapsed = 0f;
-            slideStartRotation = transform.rotation;
-            slideTargetRotation = Quaternion.Euler(-80f, 0f, 0f);
+            // Cancel slide if jumping
+            if (isJumping)
+            {
+                isJumping = false;
+                isGoingUp = false;
+                transform.position = new Vector3(transform.position.x, jumpStartY, transform.position.z);
+            }
+
+            if (!isSliding)
+            {
+                isSliding = true;
+                slideElapsed = 0f;
+                slideStartRotation = transform.rotation;
+                slideTargetRotation = Quaternion.Euler(-80f, 0f, 0f);
+            }
         }
 
         // Gestion fluid of slide
         if (isSliding)
         {
             slideElapsed += Time.deltaTime;
-            // Smoothly rotate the character downwards
-            float t = Mathf.Clamp01(slideElapsed / slideDuration);
-            transform.rotation = Quaternion.Slerp(slideStartRotation, slideTargetRotation, t);
-            // Check if slide duration is over
+
+            // Animation rotation accroupie
+            if (slideElapsed <= crouchDownDuration)
+            {
+                float t = Mathf.Clamp01(slideElapsed / crouchDownDuration);
+                transform.rotation = Quaternion.Slerp(slideStartRotation, slideTargetRotation, t);
+            }
+            else if (slideElapsed < slideDuration)
+            {
+                // Maintient la rotation accroupie
+                transform.rotation = slideTargetRotation;
+            }
+
+            // Fin du slide
             if (slideElapsed >= slideDuration)
             {
                 isSliding = false;
@@ -169,5 +200,16 @@ public class CharacterMovement : MonoBehaviour
             }
         }
         
+    }
+
+    public void RunMovement()
+    {
+        // Activate run
+        isRunning = true;
+
+        if (isRunning)
+        {
+            transform.Translate(Vector3.forward * runSpeed * Time.deltaTime);
+        }
     }
 }
