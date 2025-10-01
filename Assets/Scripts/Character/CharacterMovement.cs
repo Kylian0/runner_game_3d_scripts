@@ -163,7 +163,8 @@ public class CharacterMovement : MonoBehaviour
             {
                 isJumping = false;
                 isGoingUp = false;
-                transform.position = new Vector3(transform.position.x, jumpStartY, transform.position.z);
+                // Remet le personnage au sol
+                transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
             }
 
             if (!isSliding)
@@ -172,6 +173,9 @@ public class CharacterMovement : MonoBehaviour
                 slideElapsed = 0f;
                 slideStartRotation = transform.rotation;
                 slideTargetRotation = Quaternion.Euler(-80f, 0f, 0f);
+
+                // Ajout : Forcer la position Y au sol si le personnage est en l'air
+                transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
             }
         }
 
@@ -191,6 +195,9 @@ public class CharacterMovement : MonoBehaviour
                 // Maintient la rotation accroupie
                 transform.rotation = slideTargetRotation;
             }
+
+            // Fixe la position Y au sol pendant tout le slide
+            transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
 
             // Fin du slide
             if (slideElapsed >= slideDuration)

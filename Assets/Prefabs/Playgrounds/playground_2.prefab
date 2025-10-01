@@ -117,6 +117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5398537722916776244}
+  - component: {fileID: -613477761311871020}
   m_Layer: 0
   m_Name: playground_2
   m_TagString: Untagged
@@ -142,6 +143,25 @@ Transform:
   - {fileID: 2248768617155933967}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-613477761311871020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6375683880629979132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cecd5da80d6e0c47afd029cfb9d2bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundField: {fileID: 8383440250869790794}
+  laneNumber: 3
+  laneSpace: 0
+  createMarker: 1
+  showGizmo: 1
+  gizmoFillColor: {r: 0, g: 1, b: 1, a: 0.12}
+  gizmoWireColor: {r: 0, g: 1, b: 1, a: 0.9}
 --- !u!1 &6818677380606226300
 GameObject:
   m_ObjectHideFlags: 0

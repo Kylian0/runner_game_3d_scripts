@@ -43,6 +43,11 @@ public class GroundSegmenter : MonoBehaviour
 
     private void Reset()
     {
+     #if UNITY_EDITOR
+        if (PrefabUtility.IsPartOfPrefabAsset(this.gameObject))
+            return;
+     #endif
+
         AutoAssignGround();
         RebuildLaneMarker();
     }
