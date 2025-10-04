@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2036589304522714824}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LaneMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2898940822479262500}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LaneMarker_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2508737479429163889}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LaneMarker_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 8199468123547991430}
   - component: {fileID: 5657981589715161039}
   - component: {fileID: 8332774035491417449}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: right_Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5017464051406758762}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LaneMarker_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 8112673747093444621}
   - component: {fileID: 3962326635982953400}
   - component: {fileID: 4975864718649527813}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,9 +355,9 @@ GameObject:
   - component: {fileID: 8036955385953848005}
   - component: {fileID: 7215805753622777660}
   - component: {fileID: 1946751217370177337}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spawn_playground
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 5122136654349760109}
   - component: {fileID: 2421326625123965686}
   - component: {fileID: 8335372818241164396}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: left_Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

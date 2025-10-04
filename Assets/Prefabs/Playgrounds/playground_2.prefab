@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5617460435460072217}
   - component: {fileID: 6175077527567205821}
   - component: {fileID: 4566955014655248893}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: left_Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,9 +118,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5398537722916776244}
   - component: {fileID: -613477761311871020}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: playground_2
-  m_TagString: Untagged
+  m_TagString: Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 8989657054245965853}
   - component: {fileID: 7045229757824030521}
   - component: {fileID: 5028100557854063820}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 1225103290355061687}
   - component: {fileID: 1680688173334609794}
   - component: {fileID: 4565054771065987671}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: right_Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
