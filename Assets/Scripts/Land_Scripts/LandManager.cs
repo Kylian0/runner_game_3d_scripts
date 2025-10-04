@@ -96,11 +96,6 @@ public class LandManager : MonoBehaviour
             return -1;
         }
 
-        if (currentLand != null)
-        {
-            currentLand.RebuildLaneMarker();
-        }
-
         int laneIndex = GetLaneIndex();
         return laneIndex;
     }
